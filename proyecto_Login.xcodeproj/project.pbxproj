@@ -11,6 +11,15 @@
 		3633AAA02D0535960087F581 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3633AA9F2D0535960087F581 /* ContentView.swift */; };
 		3633AAA22D05359A0087F581 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3633AAA12D05359A0087F581 /* Assets.xcassets */; };
 		3633AAA52D05359A0087F581 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3633AAA42D05359A0087F581 /* Preview Assets.xcassets */; };
+		36901B4B2D09FA030077D8A8 /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B4A2D09FA030077D8A8 /* CustomTextField.swift */; };
+		36901B4D2D09FA1C0077D8A8 /* GoogleFormViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B4C2D09FA1C0077D8A8 /* GoogleFormViewModel.swift */; };
+		36901B522D09FC880077D8A8 /* FormModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B512D09FC880077D8A8 /* FormModel.swift */; };
+		36901B542D09FCFA0077D8A8 /* FormDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B532D09FCFA0077D8A8 /* FormDetailView.swift */; };
+		36901B562D09FD330077D8A8 /* FormListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B552D09FD330077D8A8 /* FormListView.swift */; };
+		36901B582D09FD7D0077D8A8 /* package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B572D09FD7D0077D8A8 /* package.swift */; };
+		36901B5B2D0A006B0077D8A8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 36901B5A2D0A006B0077D8A8 /* Alamofire */; };
+		36901B5D2D0A006B0077D8A8 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 36901B5C2D0A006B0077D8A8 /* AlamofireDynamic */; };
+		36901B602D0A00F00077D8A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 36901B5F2D0A00F00077D8A8 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +28,12 @@
 		3633AA9F2D0535960087F581 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		3633AAA12D05359A0087F581 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3633AAA42D05359A0087F581 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		36901B4A2D09FA030077D8A8 /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
+		36901B4C2D09FA1C0077D8A8 /* GoogleFormViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleFormViewModel.swift; sourceTree = "<group>"; };
+		36901B512D09FC880077D8A8 /* FormModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormModel.swift; sourceTree = "<group>"; };
+		36901B532D09FCFA0077D8A8 /* FormDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormDetailView.swift; sourceTree = "<group>"; };
+		36901B552D09FD330077D8A8 /* FormListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormListView.swift; sourceTree = "<group>"; };
+		36901B572D09FD7D0077D8A8 /* package.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = package.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -26,6 +41,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				36901B602D0A00F00077D8A8 /* SwiftyJSON in Frameworks */,
+				36901B5B2D0A006B0077D8A8 /* Alamofire in Frameworks */,
+				36901B5D2D0A006B0077D8A8 /* AlamofireDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +71,10 @@
 			children = (
 				3633AA9D2D0535960087F581 /* proyecto_LoginApp.swift */,
 				3633AA9F2D0535960087F581 /* ContentView.swift */,
+				36901B4F2D09FB420077D8A8 /* ViewModel */,
+				36901B4E2D09FB310077D8A8 /* Models */,
+				36901B502D09FBDA0077D8A8 /* View */,
+				36901B572D09FD7D0077D8A8 /* package.swift */,
 				3633AAA12D05359A0087F581 /* Assets.xcassets */,
 				3633AAA32D05359A0087F581 /* Preview Content */,
 			);
@@ -65,6 +87,32 @@
 				3633AAA42D05359A0087F581 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		36901B4E2D09FB310077D8A8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				36901B512D09FC880077D8A8 /* FormModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		36901B4F2D09FB420077D8A8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				36901B4C2D09FA1C0077D8A8 /* GoogleFormViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		36901B502D09FBDA0077D8A8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				36901B4A2D09FA030077D8A8 /* CustomTextField.swift */,
+				36901B532D09FCFA0077D8A8 /* FormDetailView.swift */,
+				36901B552D09FD330077D8A8 /* FormListView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +131,11 @@
 			dependencies = (
 			);
 			name = proyecto_Login;
+			packageProductDependencies = (
+				36901B5A2D0A006B0077D8A8 /* Alamofire */,
+				36901B5C2D0A006B0077D8A8 /* AlamofireDynamic */,
+				36901B5F2D0A00F00077D8A8 /* SwiftyJSON */,
+			);
 			productName = proyecto_Login;
 			productReference = 3633AA9A2D0535960087F581 /* proyecto_Login.app */;
 			productType = "com.apple.product-type.application";
@@ -111,6 +164,10 @@
 				Base,
 			);
 			mainGroup = 3633AA912D0535950087F581;
+			packageReferences = (
+				36901B592D0A006B0077D8A8 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				36901B5E2D0A00F00077D8A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = 3633AA9B2D0535960087F581 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -138,7 +195,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3633AAA02D0535960087F581 /* ContentView.swift in Sources */,
+				36901B542D09FCFA0077D8A8 /* FormDetailView.swift in Sources */,
+				36901B562D09FD330077D8A8 /* FormListView.swift in Sources */,
+				36901B4D2D09FA1C0077D8A8 /* GoogleFormViewModel.swift in Sources */,
+				36901B582D09FD7D0077D8A8 /* package.swift in Sources */,
 				3633AA9E2D0535960087F581 /* proyecto_LoginApp.swift in Sources */,
+				36901B522D09FC880077D8A8 /* FormModel.swift in Sources */,
+				36901B4B2D09FA030077D8A8 /* CustomTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,6 +407,43 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		36901B592D0A006B0077D8A8 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.2;
+			};
+		};
+		36901B5E2D0A00F00077D8A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		36901B5A2D0A006B0077D8A8 /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36901B592D0A006B0077D8A8 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+		36901B5C2D0A006B0077D8A8 /* AlamofireDynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36901B592D0A006B0077D8A8 /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = AlamofireDynamic;
+		};
+		36901B5F2D0A00F00077D8A8 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 36901B5E2D0A00F00077D8A8 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3633AA922D0535950087F581 /* Project object */;
 }

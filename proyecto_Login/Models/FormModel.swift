@@ -16,6 +16,7 @@ struct FormModel: Identifiable, Codable {
     var createdAt: Date
     var updatedAt: Date
     
+    // Inicializador desde JSON
     init(json: JSON) {
         id = json["id"].stringValue
         title = json["title"].stringValue
@@ -23,6 +24,15 @@ struct FormModel: Identifiable, Codable {
         questions = json["questions"].arrayValue.map { QuestionModel(json: $0) }
         createdAt = Date(timeIntervalSince1970: json["createdAt"].doubleValue)
         updatedAt = Date(timeIntervalSince1970: json["updatedAt"].doubleValue)
+    }
+    // Inicializador completo
+    init(id: String, title: String, description: String, questions: [QuestionModel], createdAt: Date, updatedAt: Date) {
+        self.id = id
+        self.title = title
+        self.description = description
+        self.questions = questions
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
     }
 }
 

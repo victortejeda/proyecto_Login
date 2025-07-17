@@ -18,7 +18,6 @@
 		36901B562D09FD330077D8A8 /* FormListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B552D09FD330077D8A8 /* FormListView.swift */; };
 		36901B582D09FD7D0077D8A8 /* package.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36901B572D09FD7D0077D8A8 /* package.swift */; };
 		36901B5B2D0A006B0077D8A8 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 36901B5A2D0A006B0077D8A8 /* Alamofire */; };
-		36901B5D2D0A006B0077D8A8 /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 36901B5C2D0A006B0077D8A8 /* AlamofireDynamic */; };
 		36901B602D0A00F00077D8A8 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 36901B5F2D0A00F00077D8A8 /* SwiftyJSON */; };
 /* End PBXBuildFile section */
 
@@ -43,7 +42,6 @@
 			files = (
 				36901B602D0A00F00077D8A8 /* SwiftyJSON in Frameworks */,
 				36901B5B2D0A006B0077D8A8 /* Alamofire in Frameworks */,
-				36901B5D2D0A006B0077D8A8 /* AlamofireDynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

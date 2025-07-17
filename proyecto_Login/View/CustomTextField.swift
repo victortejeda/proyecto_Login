@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+// Paleta de colores profesional y llamativa
+extension Color {
+    static let primaryBlue = Color(red: 37/255, green: 99/255, blue: 235/255) // #2563eb
+    static let accentOrange = Color(red: 251/255, green: 146/255, blue: 60/255) // #fb923c
+    static let darkGrayBG = Color(red: 30/255, green: 41/255, blue: 59/255) // #1e293b
+}
+
 struct CustomTextField: View {
     let placeholder: String
     @Binding var text: String
@@ -14,8 +21,13 @@ struct CustomTextField: View {
     var body: some View {
         TextField(placeholder, text: $text)
             .padding()
-            .background(Color(.systemGray6))
-            .cornerRadius(10)
+            .background(Color.darkGrayBG.opacity(0.8))
+            .foregroundColor(.white)
+            .cornerRadius(12)
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.primaryBlue, lineWidth: 2)
+            )
             .padding(.horizontal)
     }
 }
@@ -33,14 +45,16 @@ struct CustomButton: View {
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
             } else {
                 Text(title)
+                    .fontWeight(.bold)
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
             }
         }
-        .frame(maxWidth: .infinity)
-        .padding()
+        .padding(.horizontal)
         .background(isLoading ? Color.gray : color)
         .foregroundColor(.white)
-        .cornerRadius(10)
-        .padding(.horizontal)
+        .cornerRadius(12)
+        .shadow(color: color.opacity(0.3), radius: 6, x: 0, y: 3)
         .disabled(isLoading)
     }
 }
@@ -59,22 +73,22 @@ struct FormListItem: View {
                 HStack {
                     Text(form.title)
                         .font(.headline)
-                        .foregroundColor(.white)
+                        .foregroundColor(.primaryBlue)
                     if form.isFavorite {
                         Image(systemName: "star.fill")
-                            .foregroundColor(.yellow)
+                            .foregroundColor(.accentOrange)
                             .scaleEffect(animate ? 1.2 : 1.0)
                             .animation(.spring(), value: animate)
                     }
                 }
                 Text(form.description)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.8))
+                    .foregroundColor(.white.opacity(0.85))
             }
             Spacer()
             Button(action: onToggleFavorite) {
                 Image(systemName: form.isFavorite ? "star.fill" : "star")
-                    .foregroundColor(.yellow)
+                    .foregroundColor(.accentOrange)
             }
             Button(action: onDelete) {
                 Image(systemName: "trash")
@@ -83,10 +97,12 @@ struct FormListItem: View {
         }
         .padding()
         .background(
-            LinearGradient(gradient: Gradient(colors: [form.isFavorite ? .orange : .blue, .purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
+            RoundedRectangle(cornerRadius: 18)
+                .fill(
+                    LinearGradient(gradient: Gradient(colors: [form.isFavorite ? .accentOrange : .primaryBlue, .darkGrayBG]), startPoint: .topLeading, endPoint: .bottomTrailing)
+                )
+                .shadow(color: .primaryBlue.opacity(0.18), radius: 8, x: 0, y: 4)
         )
-        .cornerRadius(16)
-        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
         .onTapGesture {
             animate = true
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

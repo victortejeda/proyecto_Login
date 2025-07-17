@@ -21,71 +21,79 @@ struct FormListView: View {
     
     var body: some View {
         GeometryReader { geometry in
-            NavigationView {
-                VStack {
-                    HStack {
-                        Toggle(isOn: $showFavoritesOnly) {
-                            Label("Solo favoritos", systemImage: "star.fill")
+            ZStack {
+                Color.darkGrayBG.ignoresSafeArea()
+                NavigationView {
+                    VStack {
+                        HStack {
+                            Toggle(isOn: $showFavoritesOnly) {
+                                Label("Solo favoritos", systemImage: "star.fill")
+                                    .foregroundColor(.accentOrange)
+                            }
+                            .toggleStyle(SwitchToggleStyle(tint: .accentOrange))
+                            .padding(.horizontal)
+                            Spacer()
                         }
-                        .toggleStyle(SwitchToggleStyle(tint: .yellow))
-                        .padding(.horizontal)
-                        Spacer()
-                    }
-                    List {
-                        ForEach(filteredForms) { form in
-                            FormListItem(
-                                form: form,
-                                onTap: {
-                                    if let password = form.password, !password.isEmpty {
-                                        formToOpen = form
-                                        showPasswordPrompt = true
-                                    } else {
-                                        viewModel.currentForm = form
+                        List {
+                            ForEach(filteredForms) { form in
+                                FormListItem(
+                                    form: form,
+                                    onTap: {
+                                        if let password = form.password, !password.isEmpty {
+                                            formToOpen = form
+                                            showPasswordPrompt = true
+                                        } else {
+                                            viewModel.currentForm = form
+                                        }
+                                    },
+                                    onDelete: {
+                                        viewModel.deleteForm(id: form.id)
+                                    },
+                                    onToggleFavorite: {
+                                        viewModel.toggleFavorite(for: form)
                                     }
-                                },
-                                onDelete: {
-                                    viewModel.deleteForm(id: form.id)
-                                },
-                                onToggleFavorite: {
-                                    viewModel.toggleFavorite(for: form)
-                                }
-                            )
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
+                                )
+                                .listRowBackground(Color.clear)
+                                .listRowSeparator(.hidden)
+                            }
+                        }
+                        .listStyle(PlainListStyle())
+                        .background(Color.clear)
+                    }
+                    .background(Color.darkGrayBG)
+                    .navigationTitle("Mis Formularios")
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: { showingCreateForm = true }) {
+                                Image(systemName: "plus.circle.fill")
+                                    .font(.system(size: 28))
+                                    .foregroundColor(.primaryBlue)
+                            }
                         }
                     }
-                    .listStyle(PlainListStyle())
-                }
-                .navigationTitle("Mis Formularios")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button(action: { showingCreateForm = true }) {
-                            Image(systemName: "plus")
+                    .sheet(isPresented: $showingCreateForm) {
+                        CreateFormView(viewModel: viewModel)
+                    }
+                    .alert("Contraseña requerida", isPresented: $showPasswordPrompt, actions: {
+                        SecureField("Contraseña", text: $passwordInput)
+                        Button("Abrir") {
+                            if let form = formToOpen, viewModel.checkPassword(for: form, input: passwordInput) {
+                                viewModel.currentForm = form
+                            }
+                            passwordInput = ""
+                            formToOpen = nil
                         }
-                    }
-                }
-                .sheet(isPresented: $showingCreateForm) {
-                    CreateFormView(viewModel: viewModel)
-                }
-                .alert("Contraseña requerida", isPresented: $showPasswordPrompt, actions: {
-                    SecureField("Contraseña", text: $passwordInput)
-                    Button("Abrir") {
-                        if let form = formToOpen, viewModel.checkPassword(for: form, input: passwordInput) {
-                            viewModel.currentForm = form
+                        Button("Cancelar", role: .cancel) {
+                            passwordInput = ""
+                            formToOpen = nil
                         }
-                        passwordInput = ""
-                        formToOpen = nil
-                    }
-                    Button("Cancelar", role: .cancel) {
-                        passwordInput = ""
-                        formToOpen = nil
-                    }
-                }, message: {
-                    Text("Este formulario está protegido. Ingresa la contraseña para abrirlo.")
-                })
+                    }, message: {
+                        Text("Este formulario está protegido. Ingresa la contraseña para abrirlo.")
+                    })
+                }
+                .navigationViewStyle(StackNavigationViewStyle())
+                .frame(width: geometry.size.width, height: geometry.size.height)
             }
-            .navigationViewStyle(StackNavigationViewStyle())
-            .frame(width: geometry.size.width, height: geometry.size.height)
         }
         .onAppear {
             viewModel.fetchForms()
@@ -102,13 +110,12 @@ struct CreateFormView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Form Details")) {
+                Section(header: Text("Form Details").foregroundColor(.primaryBlue)) {
                     CustomTextField(placeholder: "Title", text: $title)
                     CustomTextField(placeholder: "Description", text: $description)
                 }
-                
                 Section {
-                    CustomButton(title: "Create Form", action: createForm, isLoading: viewModel.isLoading, color: .blue)
+                    CustomButton(title: "Create Form", action: createForm, isLoading: viewModel.isLoading, color: .accentOrange)
                 }
             }
             .navigationTitle("Create New Form")
@@ -117,6 +124,7 @@ struct CreateFormView: View {
                     Button("Cancel") {
                         presentationMode.wrappedValue.dismiss()
                     }
+                    .foregroundColor(.red)
                 }
             }
         }

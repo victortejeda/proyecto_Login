@@ -89,7 +89,7 @@ struct AddQuestionView: View {
                             id: UUID().uuidString,
                             type: questionType,
                             text: questionText,
-                            options: options.isEmpty ? nil : options,
+                            options: options,
                             isRequired: isRequired
                         )
                         onSave(newQuestion)

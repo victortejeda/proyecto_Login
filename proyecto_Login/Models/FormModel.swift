@@ -30,15 +30,23 @@ struct QuestionModel: Identifiable, Codable {
     let id: String
     var type: QuestionType
     var text: String
-    var options: [String]?
+    var options: [String]
     var isRequired: Bool
     
     init(json: JSON) {
         id = json["id"].stringValue
         type = QuestionType(rawValue: json["type"].stringValue) ?? .shortAnswer
         text = json["text"].stringValue
-        options = json["options"].arrayObject as? [String]
+        options = json["options"].arrayObject as? [String] ?? []
         isRequired = json["isRequired"].boolValue
+    }
+    
+    init(id: String, type: QuestionType, text: String, options: [String] = [], isRequired: Bool) {
+        self.id = id
+        self.type = type
+        self.text = text
+        self.options = options
+        self.isRequired = isRequired
     }
 }
 

@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import Kingfisher
 
 struct CustomTextField: View {
     let placeholder: String
@@ -91,18 +90,11 @@ struct QuestionView: View {
             .pickerStyle(SegmentedPickerStyle())
             
             if question.type == .multipleChoice || question.type == .checkboxes {
-                ForEach(question.options ?? [], id: \.self) { option in
-                    TextField("Option", text: Binding(
-                        get: { option },
-                        set: { newValue in
-                            if let index = question.options?.firstIndex(of: option) {
-                                question.options?[index] = newValue
-                            }
-                        }
-                    ))
+                ForEach(question.options.indices, id: \.self) { index in
+                    TextField("Option", text: $question.options[index])
                 }
                 Button("Add Option") {
-                    question.options?.append("")
+                    question.options.append("")
                 }
             }
             

@@ -87,6 +87,9 @@ struct FormListView: View {
                         Button("Abrir") {
                             if let form = formToOpen, viewModel.checkPassword(for: form, input: passwordInput) {
                                 viewModel.currentForm = form
+                            } else {
+                                // Si la contraseña es incorrecta, no mostrar el formulario
+                                viewModel.currentForm = nil
                             }
                             passwordInput = ""
                             formToOpen = nil
@@ -94,6 +97,7 @@ struct FormListView: View {
                         Button("Cancelar", role: .cancel) {
                             passwordInput = ""
                             formToOpen = nil
+                            viewModel.currentForm = nil
                         }
                     }, message: {
                         Text("Este formulario está protegido. Ingresa la contraseña para abrirlo.")

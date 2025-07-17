@@ -34,31 +34,39 @@ struct FormListView: View {
                             .padding(.horizontal)
                             Spacer()
                         }
-                        List {
-                            ForEach(filteredForms) { form in
-                                FormListItem(
-                                    form: form,
-                                    onTap: {
-                                        if let password = form.password, !password.isEmpty {
-                                            formToOpen = form
-                                            showPasswordPrompt = true
-                                        } else {
-                                            viewModel.currentForm = form
+                        if filteredForms.isEmpty {
+                            Text(showFavoritesOnly ? "No tienes formularios marcados como favoritos." : "No tienes formularios todavía.")
+                                .foregroundColor(.lightText)
+                                .padding()
+                        } else {
+                            List {
+                                ForEach(filteredForms) { form in
+                                    FormListItem(
+                                        form: form,
+                                        onTap: {
+                                            if let password = form.password, !password.isEmpty {
+                                                formToOpen = form
+                                                showPasswordPrompt = true
+                                            } else {
+                                                viewModel.currentForm = form
+                                            }
+                                        },
+                                        onDelete: {
+                                            viewModel.deleteForm(id: form.id)
+                                        },
+                                        onToggleFavorite: {
+                                            withAnimation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5)) {
+                                                viewModel.toggleFavorite(for: form)
+                                            }
                                         }
-                                    },
-                                    onDelete: {
-                                        viewModel.deleteForm(id: form.id)
-                                    },
-                                    onToggleFavorite: {
-                                        viewModel.toggleFavorite(for: form)
-                                    }
-                                )
-                                .listRowBackground(Color.clear)
-                                .listRowSeparator(.hidden)
+                                    )
+                                    .listRowBackground(Color.clear)
+                                    .listRowSeparator(.hidden)
+                                }
                             }
+                            .listStyle(PlainListStyle())
+                            .background(Color.clear)
                         }
-                        .listStyle(PlainListStyle())
-                        .background(Color.clear)
                     }
                     .background(Color.darkGrayBG)
                     .navigationTitle("Mis Formularios")
@@ -110,18 +118,18 @@ struct CreateFormView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Form Details").foregroundColor(.primaryBlue)) {
-                    CustomTextField(placeholder: "Title", text: $title)
-                    CustomTextField(placeholder: "Description", text: $description)
+                Section(header: Text("Detalles del formulario").foregroundColor(.primaryBlue)) {
+                    CustomTextField(placeholder: "Título", text: $title)
+                    CustomTextField(placeholder: "Descripción", text: $description)
                 }
                 Section {
-                    CustomButton(title: "Create Form", action: createForm, isLoading: viewModel.isLoading, color: .accentOrange)
+                    CustomButton(title: "Crear formulario", action: createForm, isLoading: viewModel.isLoading, color: .accentOrange)
                 }
             }
-            .navigationTitle("Create New Form")
+            .navigationTitle("Crear nuevo formulario")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button("Cancelar") {
                         presentationMode.wrappedValue.dismiss()
                     }
                     .foregroundColor(.red)

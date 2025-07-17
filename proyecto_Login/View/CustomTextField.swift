@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-// Paleta de colores profesional y llamativa
+// Paleta de colores profesional y llamativa (ajustada para mejor contraste)
 extension Color {
-    static let primaryBlue = Color(red: 37/255, green: 99/255, blue: 235/255) // #2563eb
-    static let accentOrange = Color(red: 251/255, green: 146/255, blue: 60/255) // #fb923c
-    static let darkGrayBG = Color(red: 30/255, green: 41/255, blue: 59/255) // #1e293b
+    static let primaryBlue = Color(red: 24/255, green: 45/255, blue: 90/255) // Azul oscuro profesional
+    static let accentOrange = Color(red: 255/255, green: 140/255, blue: 0/255) // Naranja vibrante
+    static let darkGrayBG = Color(red: 30/255, green: 41/255, blue: 59/255) // Gris oscuro elegante
+    static let lightText = Color.white // Texto claro para títulos
 }
 
 struct CustomTextField: View {
@@ -22,7 +23,7 @@ struct CustomTextField: View {
         TextField(placeholder, text: $text)
             .padding()
             .background(Color.darkGrayBG.opacity(0.8))
-            .foregroundColor(.white)
+            .foregroundColor(.lightText)
             .cornerRadius(12)
             .overlay(
                 RoundedRectangle(cornerRadius: 12)
@@ -52,7 +53,7 @@ struct CustomButton: View {
         }
         .padding(.horizontal)
         .background(isLoading ? Color.gray : color)
-        .foregroundColor(.white)
+        .foregroundColor(.lightText)
         .cornerRadius(12)
         .shadow(color: color.opacity(0.3), radius: 6, x: 0, y: 3)
         .disabled(isLoading)
@@ -67,26 +68,38 @@ struct FormListItem: View {
     
     @State private var animate = false
     
+    var titleColor: Color {
+        // Si es favorito (naranja) o azul, usar texto blanco
+        .lightText
+    }
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text(form.title)
                         .font(.headline)
-                        .foregroundColor(.primaryBlue)
+                        .foregroundColor(titleColor)
                     if form.isFavorite {
                         Image(systemName: "star.fill")
                             .foregroundColor(.accentOrange)
-                            .scaleEffect(animate ? 1.2 : 1.0)
-                            .animation(.spring(), value: animate)
+                            .scaleEffect(animate ? 1.5 : 1.0)
+                            .shadow(color: .accentOrange, radius: animate ? 10 : 0)
+                            .animation(.spring(response: 0.3, dampingFraction: 0.3, blendDuration: 0.5), value: animate)
                     }
                 }
                 Text(form.description)
                     .font(.subheadline)
-                    .foregroundColor(.white.opacity(0.85))
+                    .foregroundColor(.lightText.opacity(0.85))
             }
             Spacer()
-            Button(action: onToggleFavorite) {
+            Button(action: {
+                animate = true
+                onToggleFavorite()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) {
+                    animate = false
+                }
+            }) {
                 Image(systemName: form.isFavorite ? "star.fill" : "star")
                     .foregroundColor(.accentOrange)
             }

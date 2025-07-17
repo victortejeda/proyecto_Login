@@ -16,11 +16,11 @@ struct FormDetailView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
-                CustomTextField(placeholder: "Title", text: Binding(
+                CustomTextField(placeholder: "Título", text: Binding(
                     get: { viewModel.currentForm?.title ?? "" },
                     set: { viewModel.currentForm?.title = $0 }
                 ))
-                CustomTextField(placeholder: "Description", text: Binding(
+                CustomTextField(placeholder: "Descripción", text: Binding(
                     get: { viewModel.currentForm?.description ?? "" },
                     set: { viewModel.currentForm?.description = $0 }
                 ))
@@ -69,8 +69,8 @@ struct FormDetailView: View {
                         }
                     ))
                 }
-                CustomButton(title: "Add Question", action: { showingAddQuestion = true }, isLoading: false, color: .accentOrange)
-                CustomButton(title: "Save Changes", action: viewModel.updateForm, isLoading: viewModel.isLoading, color: .primaryBlue)
+                CustomButton(title: "Agregar pregunta", action: { showingAddQuestion = true }, isLoading: false, color: .accentOrange)
+                CustomButton(title: "Guardar cambios", action: viewModel.updateForm, isLoading: viewModel.isLoading, color: .primaryBlue)
             }
             .padding()
             .background(Color.darkGrayBG)
@@ -78,7 +78,7 @@ struct FormDetailView: View {
             .padding(.horizontal, 8)
         }
         .background(Color.darkGrayBG.ignoresSafeArea())
-        .navigationTitle("Edit Form")
+        .navigationTitle("Editar formulario")
         .sheet(isPresented: $showingAddQuestion) {
             AddQuestionView(onSave: { newQuestion in
                 viewModel.currentForm?.questions.append(newQuestion)
@@ -98,33 +98,33 @@ struct AddQuestionView: View {
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Question Details").foregroundColor(.primaryBlue)) {
-                    TextField("Question Text", text: $questionText)
+                Section(header: Text("Detalles de la pregunta").foregroundColor(.primaryBlue)) {
+                    TextField("Texto de la pregunta", text: $questionText)
                         .foregroundColor(.darkGrayBG)
-                    Picker("Question Type", selection: $questionType) {
-                        Text("Short Answer").tag(QuestionType.shortAnswer)
-                        Text("Paragraph").tag(QuestionType.paragraph)
-                        Text("Multiple Choice").tag(QuestionType.multipleChoice)
-                        Text("Checkboxes").tag(QuestionType.checkboxes)
+                    Picker("Tipo de pregunta", selection: $questionType) {
+                        Text("Respuesta corta").tag(QuestionType.shortAnswer)
+                        Text("Párrafo").tag(QuestionType.paragraph)
+                        Text("Opción múltiple").tag(QuestionType.multipleChoice)
+                        Text("Casillas").tag(QuestionType.checkboxes)
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    Toggle("Required", isOn: $isRequired)
+                    Toggle("Obligatoria", isOn: $isRequired)
                         .toggleStyle(SwitchToggleStyle(tint: .accentOrange))
                 }
                 if questionType == .multipleChoice || questionType == .checkboxes {
-                    Section(header: Text("Options").foregroundColor(.accentOrange)) {
+                    Section(header: Text("Opciones").foregroundColor(.accentOrange)) {
                         ForEach(options.indices, id: \.self) { index in
-                            TextField("Option \(index + 1)", text: $options[index])
+                            TextField("Opción \(index + 1)", text: $options[index])
                                 .foregroundColor(.darkGrayBG)
                         }
-                        Button("Add Option") {
+                        Button("Agregar opción") {
                             options.append("")
                         }
                         .foregroundColor(.primaryBlue)
                     }
                 }
                 Section {
-                    Button("Save Question") {
+                    Button("Guardar pregunta") {
                         let newQuestion = QuestionModel(
                             id: UUID().uuidString,
                             type: questionType,
@@ -139,10 +139,10 @@ struct AddQuestionView: View {
                     .listRowBackground(Color.primaryBlue)
                 }
             }
-            .navigationTitle("Add Question")
+            .navigationTitle("Agregar pregunta")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button("Cancel") {
+                    Button("Cancelar") {
                         presentationMode.wrappedValue.dismiss()
                     }
                     .foregroundColor(.red)

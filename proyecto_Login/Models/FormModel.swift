@@ -15,6 +15,8 @@ struct FormModel: Identifiable, Codable {
     var questions: [QuestionModel]
     var createdAt: Date
     var updatedAt: Date
+    var isFavorite: Bool // Indica si el formulario es favorito
+    var password: String? // Contraseña opcional para proteger el formulario
     
     // Inicializador desde JSON
     init(json: JSON) {
@@ -24,15 +26,19 @@ struct FormModel: Identifiable, Codable {
         questions = json["questions"].arrayValue.map { QuestionModel(json: $0) }
         createdAt = Date(timeIntervalSince1970: json["createdAt"].doubleValue)
         updatedAt = Date(timeIntervalSince1970: json["updatedAt"].doubleValue)
+        isFavorite = json["isFavorite"].boolValue
+        password = json["password"].string
     }
     // Inicializador completo
-    init(id: String, title: String, description: String, questions: [QuestionModel], createdAt: Date, updatedAt: Date) {
+    init(id: String, title: String, description: String, questions: [QuestionModel], createdAt: Date, updatedAt: Date, isFavorite: Bool = false, password: String? = nil) {
         self.id = id
         self.title = title
         self.description = description
         self.questions = questions
         self.createdAt = createdAt
         self.updatedAt = updatedAt
+        self.isFavorite = isFavorite
+        self.password = password
     }
 }
 

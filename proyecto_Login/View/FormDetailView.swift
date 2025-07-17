@@ -10,6 +10,8 @@ import SwiftUI
 struct FormDetailView: View {
     @ObservedObject var viewModel: GoogleFormViewModel
     @State private var showingAddQuestion = false
+    @State private var showPasswordField = false
+    @State private var passwordInput = ""
     
     var body: some View {
         ScrollView {
@@ -23,6 +25,39 @@ struct FormDetailView: View {
                     get: { viewModel.currentForm?.description ?? "" },
                     set: { viewModel.currentForm?.description = $0 }
                 ))
+                
+                HStack {
+                    Button(action: {
+                        showPasswordField.toggle()
+                        passwordInput = viewModel.currentForm?.password ?? ""
+                    }) {
+                        Label(viewModel.currentForm?.password == nil || viewModel.currentForm?.password == "" ? "Proteger con contraseña" : "Quitar contraseña", systemImage: "lock")
+                    }
+                    .padding(.vertical, 8)
+                    .padding(.horizontal, 16)
+                    .background(Color.yellow.opacity(0.8))
+                    .foregroundColor(.black)
+                    .cornerRadius(8)
+                    .animation(.easeInOut, value: showPasswordField)
+                }
+                if showPasswordField {
+                    VStack {
+                        SecureField("Contraseña", text: $passwordInput)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                        HStack {
+                            Button("Guardar") {
+                                if let form = viewModel.currentForm {
+                                    viewModel.setPassword(for: form, password: passwordInput.isEmpty ? nil : passwordInput)
+                                }
+                                showPasswordField = false
+                            }
+                            Button("Cancelar") {
+                                showPasswordField = false
+                            }
+                        }
+                    }
+                    .transition(.opacity.combined(with: .slide))
+                }
                 
                 ForEach(viewModel.currentForm?.questions ?? []) { question in
                     QuestionView(question: Binding(

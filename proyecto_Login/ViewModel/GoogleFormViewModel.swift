@@ -86,5 +86,24 @@ class GoogleFormViewModel: ObservableObject {
         saveForms()
         isLoading = false
     }
+    
+    /// Marca o desmarca un formulario como favorito
+    func toggleFavorite(for form: FormModel) {
+        if let index = forms.firstIndex(where: { $0.id == form.id }) {
+            forms[index].isFavorite.toggle()
+            saveForms()
+        }
+    }
+    /// Establece o elimina la contraseña de un formulario
+    func setPassword(for form: FormModel, password: String?) {
+        if let index = forms.firstIndex(where: { $0.id == form.id }) {
+            forms[index].password = password
+            saveForms()
+        }
+    }
+    /// Verifica si la contraseña ingresada es correcta
+    func checkPassword(for form: FormModel, input: String) -> Bool {
+        return form.password == input
+    }
 }
 

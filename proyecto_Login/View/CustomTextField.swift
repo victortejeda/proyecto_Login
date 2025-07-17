@@ -49,27 +49,53 @@ struct FormListItem: View {
     let form: FormModel
     let onTap: () -> Void
     let onDelete: () -> Void
+    let onToggleFavorite: () -> Void
+    
+    @State private var animate = false
     
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(form.title)
-                    .font(.headline)
+                HStack {
+                    Text(form.title)
+                        .font(.headline)
+                        .foregroundColor(.white)
+                    if form.isFavorite {
+                        Image(systemName: "star.fill")
+                            .foregroundColor(.yellow)
+                            .scaleEffect(animate ? 1.2 : 1.0)
+                            .animation(.spring(), value: animate)
+                    }
+                }
                 Text(form.description)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white.opacity(0.8))
             }
             Spacer()
+            Button(action: onToggleFavorite) {
+                Image(systemName: form.isFavorite ? "star.fill" : "star")
+                    .foregroundColor(.yellow)
+            }
             Button(action: onDelete) {
                 Image(systemName: "trash")
                     .foregroundColor(.red)
             }
         }
         .padding()
-        .background(Color(.systemBackground))
-        .cornerRadius(10)
-        .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
-        .onTapGesture(perform: onTap)
+        .background(
+            LinearGradient(gradient: Gradient(colors: [form.isFavorite ? .orange : .blue, .purple]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        )
+        .cornerRadius(16)
+        .shadow(color: Color.black.opacity(0.2), radius: 8, x: 0, y: 4)
+        .onTapGesture {
+            animate = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                animate = false
+                onTap()
+            }
+        }
+        .padding(.vertical, 4)
+        .padding(.horizontal, 2)
     }
 }
 

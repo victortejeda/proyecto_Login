@@ -14,6 +14,8 @@ struct FormListView: View {
     @State private var showPasswordPrompt = false
     @State private var passwordInput = ""
     @State private var formToOpen: FormModel?
+    @State private var showEditPasswordPrompt = false
+    @State private var formToEdit: FormModel?
     
     var filteredForms: [FormModel] {
         showFavoritesOnly ? viewModel.forms.filter { $0.isFavorite } : viewModel.forms
@@ -58,6 +60,14 @@ struct FormListView: View {
                                             withAnimation(.spring(response: 0.3, dampingFraction: 0.5, blendDuration: 0.5)) {
                                                 viewModel.toggleFavorite(for: form)
                                             }
+                                        },
+                                        onEdit: {
+                                            if let password = form.password, !password.isEmpty {
+                                                formToEdit = form
+                                                showEditPasswordPrompt = true
+                                            } else {
+                                                viewModel.currentForm = form
+                                            }
                                         }
                                     )
                                     .listRowBackground(Color.clear)
@@ -88,7 +98,6 @@ struct FormListView: View {
                             if let form = formToOpen, viewModel.checkPassword(for: form, input: passwordInput) {
                                 viewModel.currentForm = form
                             } else {
-                                // Si la contraseña es incorrecta, no mostrar el formulario
                                 viewModel.currentForm = nil
                             }
                             passwordInput = ""
@@ -101,6 +110,22 @@ struct FormListView: View {
                         }
                     }, message: {
                         Text("Este formulario está protegido. Ingresa la contraseña para abrirlo.")
+                    })
+                    .alert("Contraseña para editar", isPresented: $showEditPasswordPrompt, actions: {
+                        SecureField("Contraseña", text: $passwordInput)
+                        Button("Editar") {
+                            if let form = formToEdit, viewModel.checkPassword(for: form, input: passwordInput) {
+                                viewModel.currentForm = form
+                            }
+                            passwordInput = ""
+                            formToEdit = nil
+                        }
+                        Button("Cancelar", role: .cancel) {
+                            passwordInput = ""
+                            formToEdit = nil
+                        }
+                    }, message: {
+                        Text("Este formulario está protegido. Ingresa la contraseña para editarlo.")
                     })
                 }
                 .navigationViewStyle(StackNavigationViewStyle())

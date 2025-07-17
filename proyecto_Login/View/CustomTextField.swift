@@ -65,11 +65,11 @@ struct FormListItem: View {
     let onTap: () -> Void
     let onDelete: () -> Void
     let onToggleFavorite: () -> Void
+    let onEdit: () -> Void
     
     @State private var animate = false
     
     var titleColor: Color {
-        // Si es favorito (naranja) o azul, usar texto blanco
         .lightText
     }
     
@@ -102,6 +102,10 @@ struct FormListItem: View {
             }) {
                 Image(systemName: form.isFavorite ? "star.fill" : "star")
                     .foregroundColor(.accentOrange)
+            }
+            Button(action: onEdit) {
+                Image(systemName: "pencil")
+                    .foregroundColor(.primaryBlue)
             }
             Button(action: onDelete) {
                 Image(systemName: "trash")
